@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="static/favicon.ico">
+
+    <title>LockBook</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/magicsuggest-min.css" rel="stylesheet">
+    <link href="static/jquery-ui.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/lockbook.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right" role="tablist">
+          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation"><a href="#">Source</a></li>
+          <li role="presentation"><a href="#">Contact</a></li>
+        </ul>
+        <h3 class="text-muted"><span class="glyphicon glyphicon-lock"></span><span class="glyphicon glyphicon-book"></span> LockBook</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Automate your self-control</h1>
+        <p class="lead">Block access to time-waster sites such as Facebook and Netflix. Unlock on a specific date (maybe when your finals are over).</p>
+        <p><button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#blockSites">Let's do it!</button></p>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="blockSites" tabindex="-1" role="dialog" aria-labelledby="blockSitesLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="blockSitesLabel">Block Sites</h4>
+            </div>
+            <div class="modal-body">
+             <form role="form">
+              <div class="form-group">
+                <label for="sites-to-block">Block Sites</label>
+                 <div id="sites-to-block"></div><!--magicSuggest-->
+                 <p class="help-block">If you already have a lock in place, sites can only be added &mdash; not removed.</p>
+              </div>
+              <div class="form-group">
+                <label for="datetime">Until</label>
+                <input type="text" class="form-control" id="datepicker"></input>
+                <p class="help-block">If you already have a lock in place, the date can only be moved further away.</p>
+              </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" id="submit-blocks" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <h3>FAQs</h3>
+
+          <h4>Do I have to keep this program running?</h4>
+          <p> No, the block will be in place whether the program is open or not. However, the landing page will only work if LockBook is running. You will also have to run LockBook once your time expires in order to unlock your system.</p>
+
+          <h4>What if I change my mind?</h4>
+          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+        
+          <h4>Can I add sites later?</h4>
+          <p>Not yet...</p>
+
+          <h4>Is this safe?</h4>
+          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+          <h4>How does it work?</h4>
+          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p class="text-muted">Created by <a href="http://brianschiller.com">Brian Schiller</a>. Source code available <a href="https://github.com/bgschiller/highlight-world-map">on GitHub</a>.
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="static/jquery-ui.js"></script>
+
+    <script src="static/magicsuggest-min.js"></script>
+    <script src="static/lockbook.js"></script>
+  </body>
+</html>
