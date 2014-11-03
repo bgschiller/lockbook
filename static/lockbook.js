@@ -28,4 +28,20 @@ $(function() {
       inline: true
     });
 
+    $('#submit-blocks').click(function(){
+        $('#submit-blocks').button('loading');
+        $.post( "/lock", {
+            block_sites: $('#sites-to-block').magicSuggest().getValue(),
+            until_date: $('#datepicker').val()
+        })
+        .done(function(data){
+            alert(data);
+        })
+        .fail(function(data){
+            alert(data);
+        })
+        .always(function(){
+            $('#submit-blocks').button('reset');
+        });
+    });
 });
