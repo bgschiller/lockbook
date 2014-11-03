@@ -24,7 +24,8 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right" role="tablist">
-          <li role="presentation" class="active"><a href="#">Home</a></li>
+          <li role="presentation" class="active"><a href="/welcome">Home</a></li>
+          <li role="presentation"><a href="#locks" data-toggle="modal" data-target="#locks">Locks</a></li>
           <li role="presentation"><a href="#">Source</a></li>
           <li role="presentation"><a href="#">Contact</a></li>
         </ul>
@@ -37,7 +38,41 @@
         <p><button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#blockSites">Let's do it!</button></p>
       </div>
 
-      <!-- Modal -->
+
+      <!-- locks Modal -->
+      <div class="modal fade" id="locks" tabindex="-1" role="dialog" aria-labelledby="locks" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="locks">Locks</h4>
+            </div>
+            <div class="modal-body">
+              <div class="list-group">
+                % if locks:
+                  % for lock in locks:
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                    Lock Expires {{ lock['expiry'] }}
+                    </h4>
+                    <p class="list-group-item-text">
+                    {{ ', '.join(s for s in lock['blocked_sites'] if not s.startswith('www.')) }}
+                    </p>
+                  </div>
+                  % end
+                % else:
+                  <p>No locks...</p>
+                % end
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- blockSites Modal -->
       <div class="modal fade" id="blockSites" tabindex="-1" role="dialog" aria-labelledby="blockSitesLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -61,7 +96,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" id="submit-blocks" class="btn btn-primary">Submit</button>
+              <button type="button" id="submit-blocks" class="btn btn-primary">Create Lock</button>
             </div>
           </div>
         </div>

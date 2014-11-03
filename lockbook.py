@@ -1,30 +1,48 @@
-from bottle import Bottle, static_file, request
+from bottle import Bottle, static_file, request, SimpleTemplate
 import json
 from datetime import date, datetime
 from itertools import takewhile
 
-app = bottle.Bottle()
+app = Bottle()
 
 def get_date(line):
     start, date = line.split(' #LockBook ', 1)
     return date
 
+def get_sites(line):
+    sites, rest = line.replace('127.0.0.1 ','')\
+                      .rsplit(' #LockBook ', 1)
+    return sites.split()
+
 def remove_expired_locks():
     today = date.today().isoformat()
-    with open('/etc/hosts/') as f:
+    with open('/etc/hosts') as f:
         host_lines = [line.strip('\n') for line in f]
     update_lines = filter(
         lambda line: ' #LockBook ' not in line or get_date(line) > today,
         host_lines)
     if len(update_lines) < len(host_lines):
-        with open('/etc/hosts/','w') as f:
+        with open('/etc/hosts','w') as f:
             f.write('\n'.join(update_lines))
 
+    return [{
+            'expiry': get_date(line),
+            'blocked_sites': get_sites(line)
+    } for line in update_lines if ' #LockBook ' in line]
+
+
+def with_without_www(sites):
+    add_www = [ s.replace('www.','',1) for s in sites if s.startswith('www.')]
+    remove_www = [ 'www.' + s for s in sites if not s.startswith('www.')]
+    return add_www + remove_www + sites
+
+templ = SimpleTemplate(open('index.html').read())
 @app.get('/welcome')
 def welcome():
     # Unlock if necessary.
-    remove_expired_locks()
-    return open('index.html').read()
+    current_locks = remove_expired_locks()
+    return templ.render(locks=current_locks)
+
 
 @app.post('/lock')
 def lock_sites():
@@ -32,7 +50,7 @@ def lock_sites():
         to_block = request.forms.get('block_sites')
         until_date = request.forms.get('until_date')
 
-        to_block = json.loads(to_block)
+        to_block = with_without_www(json.loads(to_block))
         until_date = datetime.strptime(until_date,'%Y-%m-%d').date()
     except ValueError as e:
         return {'status':'error','message':str(e)}
