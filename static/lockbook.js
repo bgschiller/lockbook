@@ -19,7 +19,7 @@ $(function() {
         allowFreeEntries: true,
         useTabKey:true,
         selectFirst: true,
-        value: defaultSites,
+        value: ['www.facebook.com','www.netflix.com'],
         vregex:/[a-z0-9_\-\.]+\.[a-z]{2,3}/
     });
 
