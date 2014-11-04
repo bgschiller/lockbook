@@ -31,14 +31,22 @@ $(function() {
     $('#submit-blocks').click(function(){
         $('#submit-blocks').button('loading');
         $.post( "/lock", {
-            block_sites: $('#sites-to-block').magicSuggest().getValue(),
+            blocksites: JSON.stringify($('#sites-to-block').magicSuggest().getValue()),
             until_date: $('#datepicker').val()
         })
         .done(function(data){
-            alert(data);
+            console.log("done",data);
+            $('#blockSites').modal('hide');
         })
         .fail(function(data){
-            alert(data);
+            console.log("fail",data);
+            if ($('#alert-target div.alert').length == 0){
+                $('<div class="alert alert-warning alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> <strong>Uh Oh, something went wrong.</strong>This is all we know: <span class="problem-text"></span></div>')
+                .appendTo("#alert-target");
+            }
+            resp = JSON.parse(data.responseText);
+            $('#alert-target .problem-text').html(resp.message);
+
         })
         .always(function(){
             $('#submit-blocks').button('reset');

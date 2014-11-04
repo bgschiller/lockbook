@@ -1,4 +1,4 @@
-from bottle import Bottle, static_file, request, SimpleTemplate
+from bottle import Bottle, static_file, request, SimpleTemplate, HTTPResponse
 import json
 from datetime import date, datetime
 from itertools import takewhile
@@ -43,17 +43,33 @@ def welcome():
     current_locks = remove_expired_locks()
     return templ.render(locks=current_locks)
 
+def json_resp(data,**kwargs):
+    return HTTPResponse(body=json.dumps(data), **kwargs)
 
 @app.post('/lock')
 def lock_sites():
     try:
-        to_block = request.forms.get('block_sites')
-        until_date = request.forms.get('until_date')
+        to_block = request.forms['block_sites']
+        until_date = request.forms['until_date']
 
         to_block = with_without_www(json.loads(to_block))
         until_date = datetime.strptime(until_date,'%Y-%m-%d').date()
+        assert until_date > date.today(), "Date must be in the future"
+    except KeyError as e:
+        return json_resp({
+            'status':'error',
+            'message':'missing required POST param, {}'.format(e)
+            }, status=400)
     except ValueError as e:
-        return {'status':'error','message':str(e)}
+        return json_resp({
+            'status':'error',
+            'message':str(e)
+            }, status=400)
+    except AssertionError as e:
+        return json_resp({
+            'status':'error',
+            'message':str(e)
+        }, status=400)
 
     with open('/etc/hosts') as f:
         host_file = [line.strip('\n') for line in f]
