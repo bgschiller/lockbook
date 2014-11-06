@@ -31,7 +31,7 @@ $(function() {
     $('#submit-blocks').click(function(){
         $('#submit-blocks').button('loading');
         $.post( "/lock", {
-            blocksites: JSON.stringify($('#sites-to-block').magicSuggest().getValue()),
+            block_sites: JSON.stringify($('#sites-to-block').magicSuggest().getValue()),
             until_date: $('#datepicker').val()
         })
         .done(function(data){
