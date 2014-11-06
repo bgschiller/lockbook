@@ -12,7 +12,19 @@ var defaultSites = [
     'tumblr.com'
 ];
 
+var boot_template = '<div class="alert alert-STATUS alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> <strong> STRONG </strong> MESSAGE </div>';
+function boot_alert(status, strong, message){
+    //This guy doesn't work if, eg, strong contains 'MESSAGE' too bad. #wontfix
+    return $(boot_template
+        .replace('STATUS',status)
+        .replace('STRONG',strong)
+        .replace('MESSAGE',message));
+}
 $(function() {
+    if( location.search.indexOf('redirected=1') > 0) {
+        boot_alert('info','Oh snap!','That page was blocked by your former self.')
+            .appendTo('#alert-target');
+    }
 
     $('#sites-to-block').magicSuggest({
         data: defaultSites,
@@ -35,14 +47,16 @@ $(function() {
             until_date: $('#datepicker').val()
         })
         .done(function(data){
+            boot_alert('success', 'Success!', 'Your lock was saved.')
+                .appendTo('#alert-target');
             console.log("done",data);
             $('#blockSites').modal('hide');
         })
         .fail(function(data){
             console.log("fail",data);
             if ($('#alert-target div.alert').length == 0){
-                $('<div class="alert alert-warning alert-dismissible" role="alert"> <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button> <strong>Uh Oh, something went wrong.</strong>This is all we know: <span class="problem-text"></span></div>')
-                .appendTo("#alert-target");
+                boot_alert('warning', 'Uh oh, something went wrong', resp.message)
+                    .appendTo("#block-sites-alert-target");
             }
             resp = JSON.parse(data.responseText);
             $('#alert-target .problem-text').html(resp.message);

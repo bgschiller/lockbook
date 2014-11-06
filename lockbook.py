@@ -1,7 +1,8 @@
-from bottle import Bottle, static_file, request, SimpleTemplate, HTTPResponse
+from bottle import Bottle, static_file, request, SimpleTemplate, HTTPResponse, redirect
 import json
 from datetime import date, datetime
 from itertools import takewhile
+import subprocess
 
 app = Bottle()
 
@@ -37,8 +38,9 @@ def with_without_www(sites):
     return add_www + remove_www + sites
 
 templ = SimpleTemplate(open('index.html').read())
-@app.get('/welcome')
-def welcome():
+
+@app.get('/')
+def index():
     # Unlock if necessary.
     current_locks = remove_expired_locks()
     return templ.render(locks=current_locks)
@@ -87,4 +89,5 @@ def server_static(filename):
 
 if __name__ == '__main__':
     remove_expired_locks()
+    subprocess.Popen('open http://localhost:8080'.split())
     app.run()
