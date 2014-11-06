@@ -60,16 +60,11 @@ def lock_sites():
             'status':'error',
             'message':'missing required POST param, {}'.format(e)
             }, status=400)
-    except ValueError as e:
+    except (ValueError, AssertionError) as e:
         return json_resp({
             'status':'error',
             'message':str(e)
             }, status=400)
-    except AssertionError as e:
-        return json_resp({
-            'status':'error',
-            'message':str(e)
-        }, status=400)
 
     with open('/etc/hosts') as f:
         host_file = [line.strip('\n') for line in f]
@@ -77,9 +72,12 @@ def lock_sites():
     host_file.append('127.0.0.1 {sites} #LockBook {date}'.format(
         sites=' '.join(to_block),
         date=until_date))
-
-    with open('/etc/hosts','w') as f:
-        f.write('\n'.join(host_file))
+    try:
+        with open('/etc/hosts','w') as f:
+            f.write('\n'.join(host_file))
+    except IOError:
+        return json_resp({'status':'error',
+            'message':'Permission denied. Did you start with admin rights?'}, status=401)
 
     return {'status':'success'}
 
