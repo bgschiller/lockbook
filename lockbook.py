@@ -1,8 +1,7 @@
-from bottle import Bottle, static_file, request, SimpleTemplate, HTTPResponse, redirect
+from bottle import Bottle, static_file, request, SimpleTemplate, HTTPResponse
 import json
 from datetime import date, datetime
 from itertools import takewhile
-import subprocess
 
 app = Bottle()
 
@@ -89,5 +88,4 @@ def server_static(filename):
 
 if __name__ == '__main__':
     remove_expired_locks()
-    subprocess.Popen('open http://localhost:8080'.split())
     app.run()
