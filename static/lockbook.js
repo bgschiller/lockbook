@@ -24,6 +24,9 @@ $(function() {
     if( location.search.indexOf('redirected=1') > 0) {
         boot_alert('info','Oh snap!','That page was blocked by your former self.')
             .appendTo('#alert-target');
+    } else if ( location.search.indexOf('success=1') > 0){
+        boot_alert('success', 'Success!', 'Your lock was saved.')
+            .appendTo('#alert-target');
     }
 
     $('#sites-to-block').magicSuggest({
@@ -31,7 +34,7 @@ $(function() {
         allowFreeEntries: true,
         useTabKey:true,
         selectFirst: true,
-        value: ['www.facebook.com','www.netflix.com'],
+        value: ['facebook.com','netflix.com'],
         vregex: /[a-z0-9_\-\.]+\.[a-z]{2,3}/
     });
 
@@ -47,10 +50,7 @@ $(function() {
             until_date: $('#datepicker').val()
         })
         .done(function(data){
-            boot_alert('success', 'Success!', 'Your lock was saved.')
-                .appendTo('#alert-target');
-            console.log("done",data);
-            $('#blockSites').modal('hide');
+            location.replace(location.href + '?success=1');
         })
         .fail(function(data){
             console.log("fail",data);
