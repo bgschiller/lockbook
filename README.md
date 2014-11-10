@@ -4,6 +4,8 @@
 
 Block access to time-waster sites such as Facebook and Netflix. Unlock on a specific date (maybe when your finals are over).
 
+### [Download](https://github.com/bgschiller/LockBook/raw/master/LockBook.zip)
+
 ### FAQs
 
 #### How does it work?
