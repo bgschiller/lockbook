@@ -35,7 +35,8 @@ $(function() {
         useTabKey:true,
         selectFirst: true,
         value: ['facebook.com','netflix.com'],
-        vregex: /[a-z0-9_\-\.]+\.[a-z]{2,3}/
+        vregex: /[a-z0-9_\-\.]+\.[a-z]{2,3}/,
+        maxSelection:null
     });
 
     $( "#datepicker" ).datepicker({
@@ -54,11 +55,11 @@ $(function() {
         })
         .fail(function(data){
             console.log("fail",data);
+            var resp = JSON.parse(data.responseText);
             if ($('#alert-target div.alert').length == 0){
                 boot_alert('warning', 'Uh oh, something went wrong', resp.message)
                     .appendTo("#block-sites-alert-target");
             }
-            resp = JSON.parse(data.responseText);
             $('#alert-target .problem-text').html(resp.message);
 
         })
