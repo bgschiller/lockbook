@@ -10,11 +10,15 @@ Block access to time-waster sites such as Facebook and Netflix. Unlock on a spec
 
 #### How does it work?
 
-Even though you access LockBook from a website, the program is running on your own computer. When you set a lock, it updates some settings on your machine so that, eg, 'facebook.com' resolves to an address that doesn't exist.
+Even though you access LockBook from a website, the program is running on your own computer. When you set a lock, it updates some settings on your machine that make (for example) 'facebook.com' resolve to an invalid ip address.
 
 #### Is this safe?
 
 I believe it to be safe. That said, this software is distributed without warranty. We’re not responsible if this software eats your children, backs over your cat, causes a nuclear meltdown, etc.
+
+#### Are you tracking me?
+
+No, we're not tracking you. No information ever leaves your computer.
 
 #### What if I change my mind?
 
